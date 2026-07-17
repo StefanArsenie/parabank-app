@@ -1,0 +1,25 @@
+
+# Dependencies
+node_modules/
+
+# InteliJ files
+.idea/
+*.iml
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Typescript
+dist/
+
+# Allure
+allure-results/
+allure-report/
+
+# Environment files
+.env
+.env.local
