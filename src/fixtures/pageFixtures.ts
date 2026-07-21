@@ -1,4 +1,4 @@
-import {test as base} from '@playwright/test';
+import {test as base, expect} from '@playwright/test';
 import {LoginPage} from '@pages/LoginPage';
 import {RegistrationPage} from "@pages/RegistrationPage";
 import {RegistrationBuilder} from "@data/RegistrationBuilder";
@@ -31,10 +31,10 @@ export const test = base.extend<PageFixtures, WorkerFixtures>({
         await registrationPage.navigateTo();
         await registrationPage.register(user);
 
-        const heading = await registrationPage.getWelcomeMessage();
-        if (!heading.includes(`Welcome ${user.username}`)) {
-            throw new Error(`Registration failed for fixture user "${user.username}". Page showed: "${heading}"`);
-        }
+        await expect(async () => {
+            const heading = await registrationPage.getWelcomeMessage();
+            expect(heading).toContain(`Welcome ${user.username}`);
+        }).toPass({ timeout: 10000 });
 
         await use(user);
 
