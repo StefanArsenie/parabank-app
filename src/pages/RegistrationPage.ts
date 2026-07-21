@@ -1,0 +1,81 @@
+import { Page, Locator } from "@playwright/test";
+import { BaseComponent } from "@utils/BaseComponent";
+import { ROUTES } from "@data/routes";
+import { RegisterUser } from "@data/RegisterUser";
+
+export class RegistrationPage {
+
+    private readonly action: BaseComponent;
+
+    constructor(private readonly page: Page) {
+        this.action = new BaseComponent(page);
+    }
+    // Locators
+    private get firstNameInput(): Locator {
+        return this.page.locator('input[name="customer.firstName"]')
+    }
+    private get lastNameInput(): Locator {
+        return this.page.locator('input[name="customer.lastName"]')
+    }
+    private get addressInput(): Locator {
+        return this.page.locator('input[name="customer.address.street"]');
+    }
+    private get cityInput(): Locator {
+        return this.page.locator('input[name="customer.address.city"]');
+    }
+    private get stateInput(): Locator {
+        return this.page.locator('input[name="customer.address.state"]');
+    }
+    private get zipCodeInput(): Locator {
+        return this.page.locator('input[name="customer.address.zipCode"]');
+    }
+    private get phoneNumberInput(): Locator {
+        return this.page.locator('input[name="customer.phoneNumber"]');
+    }
+    private get ssnInput(): Locator {
+        return this.page.locator('input[name="customer.ssn"]');
+    }
+    private get usernameInput(): Locator {
+        return this.page.locator('input[name="customer.username"]');
+    }
+    private get passwordInput(): Locator {
+        return this.page.locator('input[name="customer.password"]');
+    }
+    private get confirmPasswordInput(): Locator {
+        return this.page.locator('input[name="repeatedPassword"]');
+    }
+    private get registerButton(): Locator {
+        return this.page.getByRole('button', {name: 'Register'});
+    }
+    private get welcomeMessage(): Locator {
+        return this.page.locator('#rightPanel h1')
+    }
+    private get titleOfPage(): Locator {
+        return this.page.getByRole('heading', {name: 'Signing up is easy!'})
+    }
+    // Actions
+    async navigateTo() {
+        await this.action.navigate(ROUTES.REGISTER);
+    }
+    async register(user: RegisterUser) {
+        await this.action.fill(this.firstNameInput, user.firstName);
+        await this.action.fill(this.lastNameInput, user.lastName);
+        await this.action.fill(this.addressInput, user.address);
+        await this.action.fill(this.cityInput, user.city);
+        await this.action.fill(this.stateInput, user.state);
+        await this.action.fill(this.zipCodeInput, user.zipCode);
+        await this.action.fill(this.phoneNumberInput, user.phoneNumber);
+        await this.action.fill(this.ssnInput, user.ssn);
+        await this.action.fill(this.usernameInput, user.username);
+        await this.action.fill(this.passwordInput, user.password);
+        await this.action.fill(this.confirmPasswordInput, user.password);
+        await this.action.click(this.registerButton);
+    }
+    async getWelcomeMessage() {
+        return this.action.getText(this.welcomeMessage);
+    }
+
+    async getTitlePage() {
+        return this.action.getText(this.titleOfPage);
+    }
+}

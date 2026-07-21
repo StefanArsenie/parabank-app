@@ -22,6 +22,10 @@ export class LoginPage {
         return this.page.getByRole('button', {name: 'Log In'});
     }
 
+    private get registerLink(): Locator {
+        return this.page.getByRole('link', {name: 'Register'});
+    }
+
     async navigate() {
         await this.action.navigate(ROUTES.LOGIN);
     }
@@ -30,5 +34,9 @@ export class LoginPage {
         await this.action.fill(this.usernameInput, username);
         await this.action.fill(this.passwordInput, password);
         await this.action.click(this.loginButton);
+    }
+
+    async clickOnRegisterLink() {
+        await this.action.click(this.registerLink);
     }
 }

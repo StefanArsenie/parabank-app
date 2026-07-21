@@ -5,6 +5,16 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      report_type:
+        description: 'Which report to publish to GitHub Pages'
+        required: true
+        default: 'allure'
+        type: choice
+        options:
+          - allure
+          - html
 
 jobs:
   test:

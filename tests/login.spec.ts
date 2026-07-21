@@ -1,7 +1,13 @@
 import { test, expect} from '@fixtures/pageFixtures';
 
-test('user login in with valid credentials', async ({loginPage, page}) => {
-    await loginPage.navigate();
-    await loginPage.login('pui', 'pui123');
-    await expect(page).toHaveURL(/overview\.htm/);
+test('User log in with valid credentials', async ({loginPage, page, registeredUser}) => {
+    await test.step('Navigate to Login page', async () => {
+        await loginPage.navigate();
+    })
+    await test.step('Fill in username and password', async () => {
+        await loginPage.login(registeredUser.username, registeredUser.password);
+    })
+    await test.step('Validate that user is logged in', async () => {
+        await expect(page).toHaveURL(/overview\.htm/);
+    })
 })
