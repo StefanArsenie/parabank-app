@@ -31,6 +31,11 @@ export const test = base.extend<PageFixtures, WorkerFixtures>({
         await registrationPage.navigateTo();
         await registrationPage.register(user);
 
+        const heading = await registrationPage.getWelcomeMessage();
+        if (!heading.includes(`Welcome ${user.username}`)) {
+            throw new Error(`Registration failed for fixture user "${user.username}". Page showed: "${heading}"`);
+        }
+
         await use(user);
 
         await context.close();
