@@ -1,7 +1,7 @@
 import { test, expect } from '@fixtures/pageFixtures';
 import { RegistrationBuilder } from "@data/RegistrationBuilder";
 
-test('Verify that Register link goes to Register page', async ({loginPage, registrationPage}) =>{
+test('Verify that Register link goes to Register page', {tag: '@regression'}, async ({loginPage, registrationPage}) =>{
     await test.step('Navigate to Login page', async () => {
         await loginPage.navigate();
     })
@@ -13,7 +13,7 @@ test('Verify that Register link goes to Register page', async ({loginPage, regis
     })
 })
 
-test('Register a new user', async ({registrationPage}) => {
+test('Register a new user', {tag: ['@smoke', '@regression']}, async ({registrationPage}) => {
     const user = new RegistrationBuilder().build();
     await test.step('Navigate to Register page', async () => {
         await registrationPage.navigateTo();

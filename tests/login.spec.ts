@@ -1,6 +1,6 @@
 import { test, expect} from '@fixtures/pageFixtures';
 
-test('User log in with valid credentials', async ({loginPage, page, registeredUser}) => {
+test('User log in with valid credentials', {tag: '@smoke'}, async ({loginPage, page, registeredUser}) => {
     await test.step('Navigate to Login page', async () => {
         await loginPage.navigate();
     })
