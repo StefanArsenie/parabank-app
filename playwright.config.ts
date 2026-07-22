@@ -18,7 +18,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
    forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 4 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -33,7 +33,7 @@ export default defineConfig({
     baseURL: process.env.BASE_URL ?? 'http://localhost:8080',
 
     /* Collect trace when retrying the failed test */
-    trace: 'on-first-retry',
+    trace: 'on',
 
     /* Screenshot only on failure */
     screenshot: 'only-on-failure',
@@ -46,15 +46,44 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'smoke',
+      grep: /@smoke/,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'regression',
+      grep: /@regression/,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
       ...(process.env.CI ? [
         {
+          name: 'smoke-firefox',
+          grep: /@smoke/,
+          use: { ...devices['Desktop Firefox'] },
+        },
+        {
+          name: 'regression-firefox',
+          grep: /@regression/,
+          use: { ...devices['Desktop Firefox'] },
+        },
+        {
           name: 'firefox',
           use: { ...devices['Desktop Firefox'] },
         },
-
+        {
+          name: 'smoke-webkit',
+          grep: /@smoke/,
+          use: { ...devices['Desktop Safari'] },
+        },
+        {
+          name: 'regression-webkit',
+          grep: /@regression/,
+          use: { ...devices['Desktop Safari'] },
+        },
         {
           name: 'webkit',
           use: { ...devices['Desktop Safari'] },

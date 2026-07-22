@@ -1,27 +1,31 @@
 import { test, expect } from '@fixtures/pageFixtures';
 import { RegistrationBuilder } from "@data/RegistrationBuilder";
 
-test('Verify that Register link goes to Register page', async ({loginPage, registrationPage}) =>{
-    await test.step('Navigate to Login page', async () => {
-        await loginPage.navigate();
+test.describe('Registration page - positive', async () => {
+    test('Verify that Register link goes to Register page', {tag: '@regression'}, async ({loginPage, registrationPage}) =>{
+        await test.step('Navigate to Login page', async () => {
+            await loginPage.navigate();
+        })
+        await test.step('Click on Register link from Login page', async () => {
+            await loginPage.clickOnRegisterLink();
+        })
+        await test.step('Verify that user is redirected to the registration page', async () => {
+            await expect(registrationPage.getTitlePage()).resolves.toBe('Signing up is easy!')
+        })
     })
-    await test.step('Click on Register link from Login page', async () => {
-        await loginPage.clickOnRegisterLink();
-    })
-    await test.step('Verify that user is redirected to the registration page', async () => {
-        await expect(registrationPage.getTitlePage()).resolves.toBe('Signing up is easy!')
+
+    test('Register a new user', {tag: ['@smoke', '@regression']}, async ({registrationPage}) => {
+        const user = new RegistrationBuilder().build();
+
+        await test.step('Navigate to Register page', async () => {
+            await registrationPage.navigateTo();
+        })
+        await test.step('Fill in and submit the registration form', async () => {
+            await registrationPage.register(user);
+        })
+        await test.step('Verify that account is created successfully', async () => {
+            expect(await registrationPage.getWelcomeMessage()).toContain(`Welcome ${user.username}`);
+        })
     })
 })
 
-test('Register a new user', async ({registrationPage}) => {
-    const user = new RegistrationBuilder().build();
-    await test.step('Navigate to Register page', async () => {
-        await registrationPage.navigateTo();
-    })
-    await test.step('Fill in and submit the registration form', async () => {
-        await registrationPage.register(user);
-    })
-    await test.step('Verify that account is created successfully', async () => {
-        await expect(registrationPage.getWelcomeMessage()).resolves.toContain(`Welcome ${user.username}`);
-    })
-})
