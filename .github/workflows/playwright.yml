@@ -48,11 +48,7 @@ jobs:
       - name: Run Playwright tests
         run: |
           SUITE="${{ github.event.inputs.test_suite || 'all' }}"
-          if [ "$SUITE" = "all" ]; then
-            npx playwright test --project=chromium --project=firefox --project=webkit
-          else
-            npx playwright test --project="$SUITE"
-          fi
+          npm run test:$SUITE
 
       - name: Generate Allure HTML report
         if: ${{ !cancelled() }}

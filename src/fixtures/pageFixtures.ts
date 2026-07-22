@@ -28,17 +28,20 @@ export const test = base.extend<PageFixtures, WorkerFixtures>({
         const registrationPage = new RegistrationPage(page);
 
         const user = new RegistrationBuilder().build();
-        await registrationPage.navigateTo();
-        await registrationPage.register(user);
 
-        await expect(async () => {
-            const heading = await registrationPage.getWelcomeMessage();
-            expect(heading).toContain(`Welcome ${user.username}`);
-        }).toPass({ timeout: 10000 });
+        try {
+            await new Promise(resolve => setTimeout(resolve, Math.random() * 2000));
+            await registrationPage.navigateTo();
+            await registrationPage.register(user);
+            await expect(async () => {
+                const heading = await registrationPage.getWelcomeMessage();
+                expect(heading).toContain(`Welcome ${user.username}`);
+            }).toPass({ timeout: 10000 });
 
-        await use(user);
-
-        await context.close();
+            await use(user);
+        } finally {
+            await context.close();
+        }
     }, {scope: 'worker'}]
 })
 

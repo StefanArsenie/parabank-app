@@ -53,6 +53,9 @@ export class RegistrationPage {
     private get titleOfPage(): Locator {
         return this.page.getByRole('heading', {name: 'Signing up is easy!'})
     }
+    private errorMessage(fieldName: string) {
+        return this.page.locator(`[id="${fieldName}.errors"]`);
+    }
     // Actions
     async navigateTo() {
         await this.action.navigate(ROUTES.REGISTER);
@@ -74,8 +77,20 @@ export class RegistrationPage {
     async getWelcomeMessage() {
         return this.action.getText(this.welcomeMessage);
     }
-
     async getTitlePage() {
         return this.action.getText(this.titleOfPage);
+    }
+    async clickRegisterButton() {
+        await this.action.click(this.registerButton);
+    }
+    async getFieldError(fieldName: string): Promise<string> {
+        return (await this.action.getText(this.errorMessage(fieldName)));
+    }
+    async getVisibleErrorMessage(fieldNames: string[]): Promise<Record<string, string>> {
+        const errors: Record<string, string> = {};
+        for (const name of fieldNames) {
+            errors[name] = await this.getFieldError(name);
+        }
+        return errors;
     }
 }
