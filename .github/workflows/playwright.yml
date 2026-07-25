@@ -49,7 +49,7 @@ jobs:
         run: |
           SUITE="${{ github.event.inputs.test_suite || 'ci-default' }}"
           if [ "$SUITE" = "ci-default" ]; then
-            npx playwright test --grep "@smoke|@regression"
+            npx playwright test --project=chromium --project=firefox --project=webkit
           else
             npm run test:$SUITE
           fi
