@@ -1,7 +1,7 @@
 import { Page, Locator } from "@playwright/test";
 import { BaseComponent } from "@utils/BaseComponent";
 import { ROUTES } from "@data/routes";
-import { RegisterUser } from "@data/RegisterUser";
+import { RegisterUser } from "@data/registerUser";
 
 export class RegistrationPage {
 
@@ -71,7 +71,7 @@ export class RegistrationPage {
         await this.action.fill(this.ssnInput, user.ssn);
         await this.action.fill(this.usernameInput, user.username);
         await this.action.fill(this.passwordInput, user.password);
-        await this.action.fill(this.confirmPasswordInput, user.password);
+        await this.action.fill(this.confirmPasswordInput, user.confirmPassword);
         await this.action.click(this.registerButton);
     }
     async getWelcomeMessage() {

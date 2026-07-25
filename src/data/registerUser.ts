@@ -9,4 +9,5 @@ export type RegisterUser = {
     ssn: string;
     username: string;
     password: string;
+    confirmPassword: string;
 }

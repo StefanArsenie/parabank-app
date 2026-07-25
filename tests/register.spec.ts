@@ -4,7 +4,7 @@ import { RegistrationBuilder } from "@data/RegistrationBuilder";
 test.describe('Registration page - positive', async () => {
     test('Verify that Register link goes to Register page', {tag: '@regression'}, async ({loginPage, registrationPage}) =>{
         await test.step('Navigate to Login page', async () => {
-            await loginPage.navigate();
+            await loginPage.navigateTo();
         })
         await test.step('Click on Register link from Login page', async () => {
             await loginPage.clickOnRegisterLink();

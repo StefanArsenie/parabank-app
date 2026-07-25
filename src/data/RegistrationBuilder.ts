@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { RegisterUser } from "@data/RegisterUser";
+import { RegisterUser } from "@data/registerUser";
 
 export class RegistrationBuilder {
 
@@ -13,8 +13,12 @@ export class RegistrationBuilder {
         phoneNumber: faker.phone.number(),
         ssn: `${faker.string.numeric(3)}-${faker.string.numeric(2)}-${faker.string.numeric(4)}`,
         username: `Stefan${Date.now()}`,
-        password: faker.internet.password({length: 10, prefix: 'Class1!'}),
+        password: faker.internet.password({length: 10, prefix: 'Test1!'}),
+        confirmPassword: '',
     };
+    constructor() {
+        this.user.confirmPassword = this.user.password;
+    }
     withFirstName(value: string): this {
         this.user.firstName = value;
         return this;
@@ -53,6 +57,11 @@ export class RegistrationBuilder {
     }
     withPassword(value: string): this {
         this.user.password = value;
+        this.user.confirmPassword = value;
+        return this;
+    }
+    withConfirmPassword(value: string): this {
+        this.user.confirmPassword = value;
         return this;
     }
     build(): RegisterUser {

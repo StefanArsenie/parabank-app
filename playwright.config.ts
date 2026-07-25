@@ -72,6 +72,7 @@ export default defineConfig({
         },
         {
           name: 'firefox',
+          grepInvert: /@smoke|@regression/,
           use: { ...devices['Desktop Firefox'] },
         },
         {

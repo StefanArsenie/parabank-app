@@ -2,7 +2,7 @@ import {test as base, expect} from '@playwright/test';
 import {LoginPage} from '@pages/LoginPage';
 import {RegistrationPage} from "@pages/RegistrationPage";
 import {RegistrationBuilder} from "@data/RegistrationBuilder";
-import {RegisterUser} from "@data/RegisterUser";
+import {RegisterUser} from "@data/registerUser";
 
 type PageFixtures = {
     loginPage: LoginPage;
