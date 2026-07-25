@@ -9,7 +9,7 @@ export class LoginPage {
     constructor(private readonly page: Page) {
         this.action = new BaseComponent(page);
     }
-
+    // Locators
     private get usernameInput(): Locator {
         return this.page.locator('input[name=username]');
     }
@@ -25,8 +25,11 @@ export class LoginPage {
     private get registerLink(): Locator {
         return this.page.getByRole('link', {name: 'Register'});
     }
-
-    async navigate() {
+    private get errorMessage(): Locator {
+        return this.page.locator('#rightPanel p.error');
+    }
+    // Actions
+    async navigateTo() {
         await this.action.navigate(ROUTES.LOGIN);
     }
 
@@ -38,5 +41,9 @@ export class LoginPage {
 
     async clickOnRegisterLink() {
         await this.action.click(this.registerLink);
+    }
+
+    async getErrorMessageForIncorrectCredentials() {
+        return this.action.getText(this.errorMessage);
     }
 }
