@@ -29,6 +29,10 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        browser: [chromium, firefox, webkit]
     env:
       BASE_URL: https://parabank.parasoft.com
     steps:
@@ -49,7 +53,7 @@ jobs:
         run: |
           SUITE="${{ github.event.inputs.test_suite || 'ci-default' }}"
           if [ "$SUITE" = "ci-default" ]; then
-            npx playwright test --project=chromium --project=firefox --project=webkit
+            npx playwright test --project=${{ matrix.browser }}
           else
             npm run test:$SUITE
           fi
@@ -62,7 +66,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 30
 
@@ -70,32 +74,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: allure-report
+          name: allure-report-${{ matrix.browser }}
           path: allure-report/
           retention-days: 30
-
-  publish-report:
-    needs: test
-    if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Download report artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ github.event.inputs.report_type == 'html' && 'playwright-report' || 'allure-report' }}
-          path: report
-
-      - name: Upload to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: report
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

@@ -7,8 +7,6 @@ test.describe('Log in page - positive', async () => {
         })
         await test.step('Fill in username and password', async () => {
             await loginPage.login(registeredUser.username, registeredUser.password);
-            console.log(registeredUser.username);
-            console.log(registeredUser.password);
         })
         await test.step('Validate that user is logged in', async () => {
             await expect(page).toHaveURL(/overview\.htm/);
