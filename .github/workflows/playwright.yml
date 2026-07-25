@@ -47,8 +47,12 @@ jobs:
 
       - name: Run Playwright tests
         run: |
-          SUITE="${{ github.event.inputs.test_suite || 'all' }}"
-          npm run test:$SUITE
+          SUITE="${{ github.event.inputs.test_suite || 'ci-default' }}"
+          if [ "$SUITE" = "ci-default" ]; then
+            npx playwright test --grep "@smoke|@regression"
+          else
+            npm run test:$SUITE
+          fi
 
       - name: Generate Allure HTML report
         if: ${{ !cancelled() }}

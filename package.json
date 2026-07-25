@@ -8,6 +8,7 @@
     "test:all:chromium": "playwright test --project=smoke --project=regression",
     "test:smoke": "playwright test --project=smoke-chromium --project=smoke-firefox --project=smoke-webkit",
     "test:regression": "playwright test --project=regression --project=regression-firefox --project=regression-webkit",
+    "test:smoke-regression:all-browsers": "playwright test --grep \"@smoke|@regression\"",
     "test:all": "playwright test --project=chromium --project=firefox --project=webkit",
     "test:debug": "",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
