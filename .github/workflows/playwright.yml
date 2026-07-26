@@ -85,17 +85,17 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      - name: Upload Allure HTML report
+      - name: Upload Allure HTML results
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: allure-report-${{ matrix.browser }}
-          path: allure-report/
+          name: allure-results-${{ matrix.browser }}
+          path: allure-results/
           retention-days: 30
 
   publish-report:
     needs: test
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -104,11 +104,22 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Download report artifact
+      - name: Download all Allure results
         uses: actions/download-artifact@v4
         with:
-          name: ${{ github.event.inputs.report_type == 'html' && 'playwright-report-chromium' || 'allure-report-chromium' }}
-          path: report
+          pattern: allure-results-*
+          path: combined-allure-results
+          merge-multiple: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline
+
+      - name: Generate combined Allure report
+        run: allure generate combined-allure-results --clean -o report
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
