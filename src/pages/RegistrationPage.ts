@@ -84,7 +84,12 @@ export class RegistrationPage {
         await this.action.click(this.registerButton);
     }
     async getFieldError(fieldName: string): Promise<string> {
-        return (await this.action.getText(this.errorMessage(fieldName)));
+        const locator = this.errorMessage(fieldName);
+        const count = await locator.count();
+        if (count === 0) {
+            return '';
+        }
+        return (await this.action.getText(locator)) ?? '';
     }
     async getVisibleErrorMessage(fieldNames: string[]): Promise<Record<string, string>> {
         const errors: Record<string, string> = {};
