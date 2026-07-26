@@ -12,7 +12,7 @@ export class RegistrationBuilder {
         zipCode: faker.location.zipCode(),
         phoneNumber: faker.phone.number(),
         ssn: `${faker.string.numeric(3)}-${faker.string.numeric(2)}-${faker.string.numeric(4)}`,
-        username: `Stefan${Date.now()}`,
+        username: `${faker.string.alphanumeric(15)}`,
         password: faker.internet.password({length: 10, prefix: 'Test1!'}),
         confirmPassword: '',
     };

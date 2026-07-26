@@ -33,7 +33,7 @@ export default defineConfig({
     baseURL: process.env.BASE_URL ?? 'http://localhost:8080',
 
     /* Collect trace when retrying the failed test */
-    trace: 'on',
+    trace: 'on-first-retry',
 
     /* Screenshot only on failure */
     screenshot: 'only-on-failure',
@@ -72,7 +72,6 @@ export default defineConfig({
         },
         {
           name: 'firefox',
-          grepInvert: /@smoke|@regression/,
           use: { ...devices['Desktop Firefox'] },
         },
         {

@@ -29,8 +29,24 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        browser: [chromium, firefox, webkit]
+    services:
+      parabank:
+        image: parasoft/parabank
+        ports:
+          - 8080:8080
+          - 61616:61616
+          - 9001:9001
+        options: >-
+          --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
     env:
-      BASE_URL: https://parabank.parasoft.com
+      BASE_URL: http://localhost:8080
     steps:
       - uses: actions/checkout@v4
 
@@ -45,10 +61,17 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      - name: Initialize ParaBank database
+        run: curl -s http://localhost:8080/parabank/initializeDB.htm
+
       - name: Run Playwright tests
         run: |
-          SUITE="${{ github.event.inputs.test_suite || 'all' }}"
-          npm run test:$SUITE
+          SUITE="${{ github.event.inputs.test_suite || 'ci-default' }}"
+          if [ "$SUITE" = "ci-default" ]; then
+            npx playwright test --project=${{ matrix.browser }}
+          else
+            npm run test:$SUITE
+          fi
 
       - name: Generate Allure HTML report
         if: ${{ !cancelled() }}
@@ -58,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 30
 
@@ -66,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: allure-report
+          name: allure-report-${{ matrix.browser }}
           path: allure-report/
           retention-days: 30
 
@@ -84,7 +107,7 @@ jobs:
       - name: Download report artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ github.event.inputs.report_type == 'html' && 'playwright-report' || 'allure-report' }}
+          name: ${{ github.event.inputs.report_type == 'html' && 'playwright-report-chromium' || 'allure-report-chromium' }}
           path: report
 
       - name: Upload to GitHub Pages

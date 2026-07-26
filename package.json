@@ -8,11 +8,14 @@
     "test:all:chromium": "playwright test --project=smoke --project=regression",
     "test:smoke": "playwright test --project=smoke-chromium --project=smoke-firefox --project=smoke-webkit",
     "test:regression": "playwright test --project=regression --project=regression-firefox --project=regression-webkit",
+    "test:smoke-regression:all-browsers": "playwright test --grep \"@smoke|@regression\"",
     "test:all": "playwright test --project=chromium --project=firefox --project=webkit",
-    "test:debug": "",
+    "test:debug": "playwright test --project=chromium --debug",
+    "clean": "rimraf allure-results test-results allure-report playwright-report",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
-    "allure:serve": "allure serve allure-results"
+    "allure:serve": "allure serve allure-results",
+    "reset-db": "curl -s http://localhost:8080/parabank/initializeDB.htm"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +28,7 @@
     "allure-commandline": "^2.43.0",
     "allure-playwright": "^3.10.2",
     "dotenv": "^17.4.2",
+    "rimraf": "^6.1.3",
     "typescript": "^6.0.3"
   }
 }

@@ -1,5 +1,5 @@
 export const ROUTES = {
-    LOGIN: '/parabank/index.htm',
+    LOGIN: '/parabank/about.htm',
     REGISTER: '/parabank/register.htm'
 } as const;
 

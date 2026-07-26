@@ -30,9 +30,14 @@ export const test = base.extend<PageFixtures, WorkerFixtures>({
         const user = new RegistrationBuilder().build();
 
         try {
-            await new Promise(resolve => setTimeout(resolve, Math.random() * 2000));
             await registrationPage.navigateTo();
             await registrationPage.register(user);
+
+            const usernameError = await registrationPage.getFieldError('customer.username');
+            if (usernameError) {
+                throw new Error(`Worker setup failed: could not register user "${user.username}" — ${usernameError}`);
+            }
+
             await expect(async () => {
                 const heading = await registrationPage.getWelcomeMessage();
                 expect(heading).toContain(`Welcome ${user.username}`);
