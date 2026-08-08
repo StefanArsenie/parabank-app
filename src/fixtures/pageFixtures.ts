@@ -3,10 +3,12 @@ import {LoginPage} from '@pages/LoginPage';
 import {RegistrationPage} from "@pages/RegistrationPage";
 import {RegistrationBuilder} from "@data/RegistrationBuilder";
 import {RegisterUser} from "@data/registerUser";
+import {AccountsOverviewPage} from "@pages/AccountsOverviewPage";
 
 type PageFixtures = {
     loginPage: LoginPage;
     registrationPage: RegistrationPage;
+    accountOverviewPage: AccountsOverviewPage
 }
 
 type WorkerFixtures = {
@@ -21,6 +23,14 @@ export const test = base.extend<PageFixtures, WorkerFixtures>({
     registrationPage: async ({page} , use ) => {
         const registerPage = new RegistrationPage(page);
         await use(registerPage);
+    },
+    accountOverviewPage: async ({page, loginPage, registeredUser}, use) => {
+        await loginPage.navigateTo();
+        await loginPage.login(registeredUser.username, registeredUser.password);
+
+        const accountOverviewPage = new AccountsOverviewPage(page);
+        await accountOverviewPage.getTitle();
+        await use(accountOverviewPage);
     },
     registeredUser: [async ({browser}, use) => {
         const context = await browser.newContext();
