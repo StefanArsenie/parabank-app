@@ -133,9 +133,6 @@ jobs:
     needs: [test-matrix, test-suite]
     if: ${{ !cancelled() && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
-    concurrency:
-      group: "pages"
-      cancel-in-progress: false
     permissions:
       pages: write
       id-token: write
