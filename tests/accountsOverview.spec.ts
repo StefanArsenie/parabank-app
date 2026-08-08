@@ -1,0 +1,14 @@
+import {test, expect} from "@fixtures/pageFixtures";
+
+test.describe('Accounts Overview Page', async() => {
+    test('Display the account with valid balance', async ({accountOverviewPage}) => {
+        await test.step('Verify that page is displayed', async() => {
+            await accountOverviewPage.getTitle();
+        })
+
+        await test.step('Verify that at least one account is displayed', async() => {
+            const account = await accountOverviewPage.getFirstAccount();
+            expect(account.accountNumber).toBe('$515.50');
+        })
+    })
+})
