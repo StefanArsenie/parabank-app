@@ -57,7 +57,6 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-      grepInvert: /@smoke|@regression/,
       use: { ...devices['Desktop Chrome'] },
     },
       ...(process.env.CI ? [
@@ -73,7 +72,6 @@ export default defineConfig({
         },
         {
           name: 'firefox',
-          grepInvert: /@smoke|@regression/,
           use: { ...devices['Desktop Firefox'] },
         },
         {
@@ -88,7 +86,6 @@ export default defineConfig({
         },
         {
           name: 'webkit',
-          grepInvert: /@smoke|@regression/,
           use: { ...devices['Desktop Safari'] },
         },
       ]: []),
