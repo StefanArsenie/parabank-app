@@ -1,5 +1,4 @@
 name: Playwright Tests - Main
-
 on:
   push:
     branches: [ main ]
@@ -26,7 +25,8 @@ on:
           - all
 
 jobs:
-  test:
+  test-matrix:
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.test_suite == 'all' }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
@@ -49,34 +49,21 @@ jobs:
       BASE_URL: http://localhost:8080
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: 'npm'
-
       - name: Install dependencies
         run: npm ci
-
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-
       - name: Initialize ParaBank database
         run: curl -s http://localhost:8080/parabank/initializeDB.htm
-
       - name: Run Playwright tests
-        run: |
-          SUITE="${{ github.event.inputs.test_suite || 'ci-default' }}"
-          if [ "$SUITE" = "ci-default" ]; then
-            npx playwright test --project=${{ matrix.browser }}
-          else
-            npm run test:$SUITE
-          fi
-
+        run: npx playwright test --project=${{ matrix.browser }}
       - name: Generate Allure HTML report
         if: ${{ !cancelled() }}
         run: npm run allure:generate
-
       - name: Upload Playwright HTML report
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -84,7 +71,6 @@ jobs:
           name: playwright-report-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 30
-
       - name: Upload Allure HTML results
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -93,8 +79,58 @@ jobs:
           path: allure-results/
           retention-days: 30
 
+  test-suite:
+    if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.test_suite == 'smoke' || github.event.inputs.test_suite == 'regression') }}
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    services:
+      parabank:
+        image: parasoft/parabank
+        ports:
+          - 8080:8080
+          - 61616:61616
+          - 9001:9001
+        options: >-
+          --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      BASE_URL: http://localhost:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Initialize ParaBank database
+        run: curl -s http://localhost:8080/parabank/initializeDB.htm
+      - name: Run Playwright tests
+        run: npm run test:${{ github.event.inputs.test_suite }}
+      - name: Generate Allure HTML report
+        if: ${{ !cancelled() }}
+        run: npm run allure:generate
+      - name: Upload Playwright HTML report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report-${{ github.event.inputs.test_suite }}
+          path: playwright-report/
+          retention-days: 30
+      - name: Upload Allure HTML results
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: allure-results-${{ github.event.inputs.test_suite }}
+          path: allure-results/
+          retention-days: 30
+
   publish-report:
-    needs: test
+    needs: [test-matrix, test-suite]
     if: ${{ !cancelled() && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     permissions:
@@ -110,22 +146,17 @@ jobs:
           pattern: allure-results-*
           path: combined-allure-results
           merge-multiple: true
-
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-
       - name: Install Allure CLI
         run: npm install -g allure-commandline
-
       - name: Generate combined Allure report
         run: allure generate combined-allure-results --clean -o report
-
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: report
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
