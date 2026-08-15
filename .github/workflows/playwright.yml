@@ -208,7 +208,7 @@ jobs:
           merge-multiple: true
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version: 24
       - name: Install Allure CLI
         run: npm install -g allure-commandline
       - name: Generate combined Allure report
