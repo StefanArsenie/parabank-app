@@ -38,6 +38,7 @@ export const test = base.extend<PageFixtures, WorkerFixtures>({
         const registrationPage = new RegistrationPage(page);
 
         const user = new RegistrationBuilder().build();
+        console.log(`[worker ${process.env.TEST_PARALLEL_INDEX}] registering username: ${user.username}`);
 
         try {
             await registrationPage.navigateTo();

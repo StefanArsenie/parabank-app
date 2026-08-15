@@ -1,6 +1,6 @@
 import {test, expect} from "@fixtures/pageFixtures";
 
-test.describe('Accounts Overview Page', async() => {
+test.describe('Accounts Overview Page', () => {
     test('Display the account with valid balance', {tag: '@regression'}, async ({accountOverviewPage}) => {
         await test.step('Verify that page is displayed', async() => {
             await accountOverviewPage.getTitle();

@@ -1,7 +1,5 @@
 import {Page, expect, Locator} from "@playwright/test";
 import {AuthenticatedBasePage} from "@pages/AuthenticatedBasePage";
-import {ro} from "@faker-js/faker";
-import * as wasi from "node:wasi";
 
 export type AccountSummary = {
     accountNumber: string;
@@ -16,7 +14,7 @@ export class AccountsOverviewPage extends AuthenticatedBasePage {
         await expect(this.page).toHaveTitle('ParaBank | Accounts Overview');
     }
     private get accountRows(): Locator {
-        return this.page.locator('tbody, tr').filter({has: this.page.locator('a[href^="activity.htm"]')});
+        return this.page.locator('#accountTable tbody tr').filter({has: this.page.locator('a[href^="activity.htm"]')});
     }
     private accountLink(row: Locator): Locator {
         return row.locator('a[href^="activity.htm"]');
@@ -25,6 +23,7 @@ export class AccountsOverviewPage extends AuthenticatedBasePage {
         return row.locator('td').nth(1);
     }
     async getAccounts(): Promise<AccountSummary[]> {
+        await this.accountRows.first().waitFor({state: 'visible'});
         const rows = await this.accountRows.all();
         const accounts: AccountSummary[] = [];
 

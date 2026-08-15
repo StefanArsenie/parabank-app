@@ -1,11 +1,11 @@
 import { Page } from '@playwright/test';
-import {BaseComponent} from '@utils/BaseComponent';
+import {PageActions} from '@utils/PageActions';
 
 export class NavigationServicesMenu {
-    private readonly action: BaseComponent;
+    private readonly action: PageActions;
 
     constructor(private readonly page: Page) {
-        this.action = new BaseComponent(page);
+        this.action = new PageActions(page);
     }
     // Locators
     private get openNewAccount() {
