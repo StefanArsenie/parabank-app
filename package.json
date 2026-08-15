@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "test:all:chromium": "playwright test --project=smoke --project=regression",
-    "test:smoke": "playwright test --project=smoke --project=smoke-firefox --project=smoke-webkit",
-    "test:regression": "playwright test --project=regression --project=regression-firefox --project=regression-webkit",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "playwright test --project=chromium",
+    "test:smoke": "playwright test --project=chromium --grep @smoke",
+    "test:regression": "playwright test --project=chromium --grep @regression",
     "test:smoke-regression:all-browsers": "playwright test --grep \"@smoke|@regression\"",
     "test:all": "playwright test --project=chromium --project=firefox --project=webkit",
     "test:debug": "playwright test --project=chromium --debug",
@@ -22,13 +24,21 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.5.0",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
     "allure-commandline": "^2.43.0",
     "allure-playwright": "^3.10.2",
     "dotenv": "^17.4.2",
+    "eslint": "^10.8.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-playwright": "^2.11.0",
+    "prettier": "^3.9.6",
     "rimraf": "^6.1.3",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0"
   }
 }

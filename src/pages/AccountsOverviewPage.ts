@@ -1,7 +1,5 @@
 import {Page, expect, Locator} from "@playwright/test";
 import {AuthenticatedBasePage} from "@pages/AuthenticatedBasePage";
-import {ro} from "@faker-js/faker";
-import * as wasi from "node:wasi";
 
 export type AccountSummary = {
     accountNumber: string;

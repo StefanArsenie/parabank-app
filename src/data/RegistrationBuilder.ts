@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { RegisterUser } from "@data/registerUser";
 
+let __seq = 0;
+
 export class RegistrationBuilder {
 
     private user: RegisterUser = {
@@ -12,7 +14,7 @@ export class RegistrationBuilder {
         zipCode: faker.location.zipCode(),
         phoneNumber: faker.phone.number(),
         ssn: `${faker.string.numeric(3)}-${faker.string.numeric(2)}-${faker.string.numeric(4)}`,
-        username: `${faker.string.alphanumeric(15)}`,
+        username: `u${process.env.TEST_PARALLEL_INDEX ?? '0'}${(__seq++).toString(36)}${Date.now().toString(36)}`.slice(0, 15),
         password: faker.internet.password({length: 10, prefix: 'Test1!'}),
         confirmPassword: '',
     };

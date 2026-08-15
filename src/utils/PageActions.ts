@@ -1,6 +1,6 @@
 import {Page, Locator} from '@playwright/test';
 
-export class BaseComponent{
+export class PageActions {
     constructor(protected readonly page: Page) {}
 
     async navigate(path: string) {

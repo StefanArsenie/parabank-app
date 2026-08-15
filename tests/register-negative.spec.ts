@@ -8,9 +8,11 @@ test.describe('Registration page - negative', () => {
         await test.step('Navigate to Registration page', async () => {
             await registrationPage.navigateTo();
         });
+
         await test.step('Click on Registration button', async () => {
             await registrationPage.clickRegisterButton()
         })
+
         await test.step('Verify that errors are shown for every mandatory field', async () => {
             const fieldNames = REQUIRED_FIELD_ERRORS.map(f => f.field);
             const errors = await registrationPage.getVisibleErrorMessage(fieldNames);
@@ -19,39 +21,34 @@ test.describe('Registration page - negative', () => {
                 expect(errors[field]).toBe(message);
             }
         })
+
         await test.step('Verify that still registration page is displayed', async () => {
             expect(await registrationPage.getTitlePage()).toBe('Signing up is easy!')
         })
     });
-    test('shows a required error when a random mandatory field is left empty', { tag: '@regression' }, async ({ registrationPage, page }) => {
-        const randomIndex = Math.floor(Math.random() * REQUIRED_FIELD_ERRORS.length);
-        const randomEntry = REQUIRED_FIELD_ERRORS[randomIndex];
-        if (!randomEntry) {
-            throw new Error(`No entry found at index ${randomIndex} in REQUIRED_FIELD_ERRORS`);
-        }
 
-        const applyOverride = FIELD_TO_BUILDER_OVERRIDE[randomEntry.field];
-        if (!applyOverride) {
-            throw new Error(`No builder override mapped for field "${randomEntry.field}" — check FIELD_TO_BUILDER_OVERRIDE`);
-        }
+    for (const { field, message } of REQUIRED_FIELD_ERRORS) {
+        const applyOverride = FIELD_TO_BUILDER_OVERRIDE[field];
 
-        const user = applyOverride(new RegistrationBuilder()).build();
+        test(`Shows a required error when '${field}' is left empty`, { tag: '@regression' }, async ({ registrationPage }) => {
+            expect(applyOverride, `No builder override mapped for '${field}'`).toBeDefined();
+            const user = applyOverride!(new RegistrationBuilder()).build();
 
-        await test.step(`Navigate to registration page (omitting ${randomEntry.field})`, async () => {
-            await registrationPage.navigateTo();
+            await test.step('Navigate to registration page', async () => {
+                await registrationPage.navigateTo();
+            });
+
+            await test.step('Fill the form leaving the field empty', async () => {
+                await registrationPage.register(user);
+            });
+
+            await test.step('Verify the empty field shows its required error', async () => {
+                expect(await registrationPage.getFieldError(field)).toBe(message);
+            });
+
+            await test.step('Verify we remain on the registration page', async () => {
+                expect(await registrationPage.getTitlePage()).toBe('Signing up is easy!');
+            });
         });
-
-        await test.step('Fill the form leaving one mandatory field empty', async () => {
-            await registrationPage.register(user);
-        });
-
-        await test.step('Verify the empty field shows its required error', async () => {
-            const error = await registrationPage.getFieldError(randomEntry.field);
-            expect(error).toBe(randomEntry.message);
-        });
-
-        await test.step('Verify we remain on the registration page', async () => {
-            expect(await registrationPage.getTitlePage()).toBe('Signing up is easy!');
-        });
-    });
+    }
 });
