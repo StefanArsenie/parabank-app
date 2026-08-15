@@ -23,4 +23,3 @@ allure-report/
 # Environment files
 .env
 .env.local
-.nvmrc
