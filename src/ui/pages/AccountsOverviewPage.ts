@@ -1,14 +1,19 @@
 import {Page, expect, Locator} from "@playwright/test";
-import {AuthenticatedBasePage} from "@pages/AuthenticatedBasePage";
+import {PageActions} from "@ui/utils/PageActions";
+import {NavigationServicesMenu} from "@ui/utils/NavigationServicesMenu";
 
 export type AccountSummary = {
     accountNumber: string;
     balance: string;
 }
 
-export class AccountsOverviewPage extends AuthenticatedBasePage {
-    constructor(page: Page) {
-        super(page);
+export class AccountsOverviewPage {
+    private readonly action: PageActions;
+    readonly navMenu: NavigationServicesMenu;
+
+    constructor(private readonly page: Page) {
+        this.action = new PageActions(page);
+        this.navMenu = new NavigationServicesMenu(page);
     }
     async getTitle() {
         await expect(this.page).toHaveTitle('ParaBank | Accounts Overview');

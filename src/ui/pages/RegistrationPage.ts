@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import { PageActions } from "@utils/PageActions";
+import { PageActions } from "@ui/utils/PageActions";
 import { ROUTES } from "@data/routes";
 import { RegisterUser } from "@data/registerUser";
 
@@ -47,7 +47,7 @@ export class RegistrationPage {
     private get registerButton(): Locator {
         return this.page.getByRole('button', {name: 'Register'});
     }
-    private get welcomeMessage(): Locator {
+    get welcomeMessage(): Locator {
         return this.page.locator('#rightPanel h1')
     }
     private get titleOfPage(): Locator {

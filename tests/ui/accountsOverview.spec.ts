@@ -1,4 +1,4 @@
-import {test, expect} from "@fixtures/pageFixtures";
+import {test, expect} from "@ui/fixtures/pageFixtures";
 
 test.describe('Accounts Overview Page', () => {
     test('Display the account with valid balance', {tag: '@regression'}, async ({accountOverviewPage}) => {

@@ -1,5 +1,5 @@
-import { test, expect } from '@fixtures/pageFixtures';
-import { RegistrationBuilder } from "@data/RegistrationBuilder";
+import { test, expect } from '@ui/fixtures/pageFixtures';
+import { RegistrationBuilder } from "@data/registrationBuilder";
 
 test.describe('Registration page - positive', () => {
     test('Verify that Register link goes to Register page', {tag: '@regression'}, async ({loginPage, registrationPage}) =>{
@@ -28,7 +28,7 @@ test.describe('Registration page - positive', () => {
         })
 
         await test.step('Verify that account is created successfully', async () => {
-            expect(await registrationPage.getWelcomeMessage()).toContain(`Welcome ${user.username}`);
+            await expect(registrationPage.welcomeMessage).toHaveText(`Welcome ${user.username}`);
         })
     })
 })

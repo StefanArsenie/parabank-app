@@ -12,10 +12,9 @@
     "types": ["node"],
     "rootDir": ".",
     "paths": {
-      "@pages/*": ["./src/pages/*"],
-      "@fixtures/*": ["./src/fixtures/*"],
+      "@ui/*": ["./src/ui/*"],
+      "@api/*": ["./src/api/*"],
       "@data/*": ["./src/data/*"],
-      "@utils/*": ["./src/utils/*"],
     }
   },
   "include": ["src/**/*", "tests/**/*"]

@@ -1,4 +1,4 @@
-import {RegistrationBuilder} from "@data/RegistrationBuilder";
+import {RegistrationBuilder} from '@data/registrationBuilder';
 
 export const REQUIRED_FIELD_ERRORS: {field: string, message: string}[] = [
     {field: 'customer.firstName', message: 'First name is required.'},
