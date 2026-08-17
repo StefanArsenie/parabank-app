@@ -1,5 +1,5 @@
 import {Page, Locator} from '@playwright/test';
-import {PageActions} from '@utils/PageActions';
+import {PageActions} from '@ui/utils/PageActions';
 import {ROUTES} from "@data/routes";
 
 export class LoginPage {

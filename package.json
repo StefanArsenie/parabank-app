@@ -7,11 +7,12 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "playwright test --project=chromium",
-    "test:smoke": "playwright test --project=chromium --grep @smoke",
-    "test:regression": "playwright test --project=chromium --grep @regression",
-    "test:smoke-regression:all-browsers": "playwright test --grep \"@smoke|@regression\"",
-    "test:all": "playwright test --project=chromium --project=firefox --project=webkit",
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:smoke:api": "playwright test --project=api --grep @smoke",
+    "test:smoke:ui": "playwright test --project=chromium --grep @smoke",
     "test:debug": "playwright test --project=chromium --debug",
     "clean": "rimraf allure-results test-results allure-report playwright-report",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
@@ -39,6 +40,7 @@
     "prettier": "^3.9.6",
     "rimraf": "^6.1.3",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.67.0"
+    "typescript-eslint": "^8.67.0",
+    "zod": "^4.4.3"
   }
 }

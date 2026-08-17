@@ -50,9 +50,50 @@ jobs:
         run: npm run lint
       - name: Type-check
         run: npm run typecheck
-
-  test-matrix:
+  test-api:
     needs: quality
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    services:
+      parabank:
+        # TODO: replace :latest with a pinned digest
+        image: parasoft/parabank:latest
+        ports:
+          - 8080:8080
+          - 61616:61616
+          - 9001:9001
+        options: >-
+          --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      BASE_URL: http://localhost:8080
+      API_BASE_URL: http://localhost:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Initialize ParaBank database
+        run: curl -s http://localhost:8080/parabank/initializeDB.htm
+      - name: Run API tests
+        run: npx playwright test --project=api
+      - name: Generate Allure HTML report
+        if: ${{ !cancelled() }}
+        run: npm run allure:generate
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: allure-results-api
+          path: allure-results/
+          retention-days: 30
+  test-matrix:
+    needs: test-api
     if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.test_suite == 'all' }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
@@ -190,7 +231,7 @@ jobs:
           retention-days: 30
 
   publish-report:
-    needs: [test-matrix, test-suite]
+    needs: [test-api, test-matrix, test-suite]
     if: ${{ !cancelled() && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     permissions:

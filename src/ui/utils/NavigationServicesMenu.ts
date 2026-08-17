@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import {PageActions} from '@utils/PageActions';
+import {PageActions} from "@ui/utils/PageActions";
 
 export class NavigationServicesMenu {
     private readonly action: PageActions;

@@ -12,13 +12,13 @@ import 'dotenv/config';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/ui',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
    forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 1,
+  retries: process.env.CI ? 1 : 1,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 4 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -46,46 +46,26 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'smoke',
-      grep: /@smoke/,
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'regression',
-      grep: /@regression/,
-      use: { ...devices['Desktop Chrome'] },
+      name: 'api',
+      testDir: './tests/api',
+      use: {
+        baseURL: process.env.API_BASE_URL ?? 'http://localhost:8080',
+      },
     },
     {
       name: 'chromium',
+      testDir: './tests/ui',
       use: { ...devices['Desktop Chrome'] },
     },
       ...(process.env.CI ? [
         {
-          name: 'smoke-firefox',
-          grep: /@smoke/,
-          use: { ...devices['Desktop Firefox'] },
-        },
-        {
-          name: 'regression-firefox',
-          grep: /@regression/,
-          use: { ...devices['Desktop Firefox'] },
-        },
-        {
           name: 'firefox',
+          testDir: './tests/ui',
           use: { ...devices['Desktop Firefox'] },
-        },
-        {
-          name: 'smoke-webkit',
-          grep: /@smoke/,
-          use: { ...devices['Desktop Safari'] },
-        },
-        {
-          name: 'regression-webkit',
-          grep: /@regression/,
-          use: { ...devices['Desktop Safari'] },
         },
         {
           name: 'webkit',
+          testDir: './tests/ui',
           use: { ...devices['Desktop Safari'] },
         },
       ]: []),

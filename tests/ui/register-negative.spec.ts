@@ -1,5 +1,5 @@
-import {test, expect} from '@fixtures/pageFixtures';
-import {RegistrationBuilder} from '@data/RegistrationBuilder';
+import {test, expect} from '@ui/fixtures/pageFixtures';
+import {RegistrationBuilder} from '@data/registrationBuilder';
 import {REQUIRED_FIELD_ERRORS} from '@data/registrationValidation';
 import {FIELD_TO_BUILDER_OVERRIDE} from "@data/registrationValidation";
 
