@@ -10,16 +10,11 @@ test.describe('Accounts Overview Page', () => {
             const account = await accountOverviewPage.getAccounts();
             expect(account.length).toBeGreaterThan(0);
         })
+
         await test.step('Verify that balance has expected format', async () => {
             const account = await accountOverviewPage.getAccounts();
-            const pozBalance = /^\$\d+\.\d{2}$/;
-            const negBalance = /^\-\$\d+\.\d{2}$/;
             account.forEach(account => {
-                if(negBalance.test(account.balance)) {
-                    expect(account.balance).toMatch(negBalance)
-                }else {
-                    expect(account.balance).toMatch(pozBalance)
-                }
+                expect(account.balance).toMatch(/^-?\$\d+\.\d{2}$/);
             })
         })
     })
