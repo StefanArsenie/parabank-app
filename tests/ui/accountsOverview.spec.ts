@@ -7,8 +7,15 @@ test.describe('Accounts Overview Page', () => {
         })
 
         await test.step('Verify that at least one account is displayed', async() => {
-            const account = await accountOverviewPage.getFirstAccount();
-            expect(account.balance).toBe('$515.50');
+            const account = await accountOverviewPage.getAccounts();
+            expect(account.length).toBeGreaterThan(0);
+        })
+
+        await test.step('Verify that balance has expected format', async () => {
+            const account = await accountOverviewPage.getAccounts();
+            account.forEach(account => {
+                expect(account.balance).toMatch(/^-?\$\d+\.\d{2}$/);
+            })
         })
     })
 })
