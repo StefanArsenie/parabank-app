@@ -4,6 +4,7 @@ import {RegistrationPage} from "@ui/pages/RegistrationPage";
 import {RegistrationBuilder} from "@data/registrationBuilder";
 import {RegisterUser} from "@data/registerUser";
 import {AccountsOverviewPage} from "@ui/pages/AccountsOverviewPage";
+import {VALID_LOGIN_DATA} from "@data/loginValidation";
 
 type PageFixtures = {
     loginPage: LoginPage;
@@ -24,9 +25,9 @@ export const test = base.extend<PageFixtures, WorkerFixtures>({
         const registerPage = new RegistrationPage(page);
         await use(registerPage);
     },
-    accountOverviewPage: async ({page, loginPage, registeredUser}, use) => {
+    accountOverviewPage: async ({page, loginPage}, use) => {
         await loginPage.navigateTo();
-        await loginPage.login(registeredUser.username, registeredUser.password);
+        await loginPage.login(VALID_LOGIN_DATA.username, VALID_LOGIN_DATA.password);
 
         const accountOverviewPage = new AccountsOverviewPage(page);
         await accountOverviewPage.getTitle();
