@@ -25,9 +25,10 @@ export class AccountsOverviewPage {
     private balanceText(row: Locator): Locator {
         return row.locator('td').nth(1);
     }
-    private get title() {
-        return this.page.locator('#showOverview h1.title');
+    get title() {
+        return this.page.getByRole('heading', {name: 'Accounts Overview'})
     }
+    // Actions
     async getAccounts(): Promise<AccountSummary[]> {
         await this.accountRows.first().waitFor({state: 'visible'});
         const rows = await this.accountRows.all();

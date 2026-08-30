@@ -53,7 +53,7 @@ export class RegistrationPage {
     private get titleOfPage(): Locator {
         return this.page.getByRole('heading', {name: 'Signing up is easy!'})
     }
-    private errorMessage(fieldName: string) {
+    errorMessage(fieldName: string) {
         return this.page.locator(`[id="${fieldName}.errors"]`);
     }
     // Actions

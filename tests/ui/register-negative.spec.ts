@@ -18,7 +18,7 @@ test.describe('Registration page - negative', () => {
             const errors = await registrationPage.getVisibleErrorMessage(fieldNames);
 
             for (const {field, message} of REQUIRED_FIELD_ERRORS) {
-                expect(errors[field]).toBe(message);
+                await expect(registrationPage.errorMessage(field)).toHaveText(message);
             }
         })
 
@@ -43,7 +43,7 @@ test.describe('Registration page - negative', () => {
             });
 
             await test.step('Verify the empty field shows its required error', async () => {
-                expect(await registrationPage.getFieldError(field)).toBe(message);
+                await expect(registrationPage.errorMessage(field)).toHaveText(message)
             });
 
             await test.step('Verify we remain on the registration page', async () => {
