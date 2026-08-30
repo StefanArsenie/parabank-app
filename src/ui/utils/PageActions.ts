@@ -22,4 +22,8 @@ export class PageActions {
     async getText(locator: Locator): Promise<string> {
         return (await locator.textContent())?.trim() ?? '';
     }
+
+    async selectOption(locator: Locator, option: string) {
+        await locator.selectOption({label: option})
+    }
 }

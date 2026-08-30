@@ -67,6 +67,6 @@ export class RegistrationBuilder {
         return this;
     }
     build(): RegisterUser {
-        return this.user;
+        return this.user
     }
 }
