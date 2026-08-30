@@ -29,7 +29,6 @@ export const test = base.extend<PageFixtures>({
         await loginPage.login(VALID_LOGIN_DATA.username, VALID_LOGIN_DATA.password);
 
         const accountOverviewPage = new AccountsOverviewPage(page);
-        await accountOverviewPage.getTitle();
         await use(accountOverviewPage);
     },
     registeredUser: async ({page}, use) => {

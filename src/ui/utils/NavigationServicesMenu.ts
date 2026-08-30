@@ -32,6 +32,10 @@ export class NavigationServicesMenu {
     private get logOut() {
         return this.page.getByRole('link', {name: 'Log Out'});
     }
+
+    private get welcomeText() {
+        return this.page.locator('#leftPanel p.smallText');
+    }
     // Actions
     async goToOpenNewAccount() {
         await this.action.click(this.openNewAccount);
@@ -56,5 +60,8 @@ export class NavigationServicesMenu {
     }
     async goToLogOut() {
         await this.action.click(this.logOut);
+    }
+    async getWelcomeText(): Promise<string> {
+        return this.action.getText(this.welcomeText);
     }
 }

@@ -1,4 +1,4 @@
-import {Page, expect, Locator} from "@playwright/test";
+import {Page, Locator} from "@playwright/test";
 import {PageActions} from "@ui/utils/PageActions";
 import {NavigationServicesMenu} from "@ui/utils/NavigationServicesMenu";
 
@@ -15,9 +15,7 @@ export class AccountsOverviewPage {
         this.action = new PageActions(page);
         this.navMenu = new NavigationServicesMenu(page);
     }
-    async getTitle() {
-        await expect(this.page).toHaveTitle('ParaBank | Accounts Overview');
-    }
+
     private get accountRows(): Locator {
         return this.page.locator('#accountTable tbody tr').filter({has: this.page.locator('a[href^="activity.htm"]')});
     }
@@ -26,6 +24,9 @@ export class AccountsOverviewPage {
     }
     private balanceText(row: Locator): Locator {
         return row.locator('td').nth(1);
+    }
+    private get title() {
+        return this.page.locator('#showOverview h1.title');
     }
     async getAccounts(): Promise<AccountSummary[]> {
         await this.accountRows.first().waitFor({state: 'visible'});
@@ -46,5 +47,8 @@ export class AccountsOverviewPage {
             throw new Error('No accounts found on Accounts Overview Page');
         }
         return firstAccount;
+    }
+    async getTitle() {
+        return this.action.getText(this.title)
     }
 }

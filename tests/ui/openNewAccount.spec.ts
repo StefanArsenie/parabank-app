@@ -2,8 +2,13 @@ import {test, expect} from "@ui/fixtures/pageFixtures";
 import {OpenNewAccountPage} from "@ui/pages/OpenNewAccountPage";
 
 test.describe(`Open new account page`, () => {
-    test(`Open new account`, {tag: '@regression'}, async ({page, navMenu}) => {
+    test(`Open new account`, {tag: '@regression'}, async ({page, registeredUser, navMenu}) => {
         const openNewAccountPage = new OpenNewAccountPage(page)
+
+        await test.step(`Verify logged in as registered user`, async () => {
+            expect(await navMenu.getWelcomeText()).toContain(registeredUser.firstName);
+        })
+
         await test.step(`Click on Open New Account link`, async () => {
             await navMenu.goToOpenNewAccount();
         })
