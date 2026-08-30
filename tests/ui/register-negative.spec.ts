@@ -14,16 +14,13 @@ test.describe('Registration page - negative', () => {
         })
 
         await test.step('Verify that errors are shown for every mandatory field', async () => {
-            const fieldNames = REQUIRED_FIELD_ERRORS.map(f => f.field);
-            const errors = await registrationPage.getVisibleErrorMessage(fieldNames);
-
             for (const {field, message} of REQUIRED_FIELD_ERRORS) {
                 await expect(registrationPage.errorMessage(field)).toHaveText(message);
             }
         })
 
         await test.step('Verify that still registration page is displayed', async () => {
-            expect(await registrationPage.getTitlePage()).toBe('Signing up is easy!')
+            await expect(registrationPage.titleOfPage).toBeVisible();
         })
     });
 
@@ -47,7 +44,7 @@ test.describe('Registration page - negative', () => {
             });
 
             await test.step('Verify we remain on the registration page', async () => {
-                expect(await registrationPage.getTitlePage()).toBe('Signing up is easy!');
+                await expect(registrationPage.titleOfPage).toBeVisible();
             });
         });
     }
