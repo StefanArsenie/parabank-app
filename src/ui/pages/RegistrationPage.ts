@@ -50,10 +50,10 @@ export class RegistrationPage {
     get welcomeMessage(): Locator {
         return this.page.locator('#rightPanel h1')
     }
-    private get titleOfPage(): Locator {
+    get titleOfPage(): Locator {
         return this.page.getByRole('heading', {name: 'Signing up is easy!'})
     }
-    private errorMessage(fieldName: string) {
+    errorMessage(fieldName: string) {
         return this.page.locator(`[id="${fieldName}.errors"]`);
     }
     // Actions
