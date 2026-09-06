@@ -9,6 +9,7 @@ import {NavigationServicesMenu} from "@ui/utils/NavigationServicesMenu";
 import {OpenNewAccountPage} from '@ui/pages/OpenNewAccountPage'
 
 type TwoAccountsUser = {
+    user: RegisterUser;
     firstAccount: string;
     secondAccount: string;
 }
@@ -36,6 +37,7 @@ export const test = base.extend<PageFixtures>({
         await loginPage.login(VALID_LOGIN_DATA.username, VALID_LOGIN_DATA.password);
 
         const accountOverviewPage = new AccountsOverviewPage(page);
+        await expect(accountOverviewPage.title).toBeVisible();
         await use(accountOverviewPage);
     },
     registeredUser: async ({page}, use) => {
@@ -72,6 +74,7 @@ export const test = base.extend<PageFixtures>({
         const secondAccount = await openNewAccountPage.getNewOpenAccountNumber()
 
         await use({
+            user: registeredUser,
             firstAccount: firstAccount.accountNumber,
             secondAccount
         })
