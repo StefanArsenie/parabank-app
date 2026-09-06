@@ -20,7 +20,8 @@ export class PageActions {
     }
 
     async getText(locator: Locator): Promise<string> {
-        return (await locator.textContent())?.trim() ?? '';
+        await locator.waitFor({state: 'visible'})
+        return (await locator.innerText()).trim();
     }
 
     async selectOption(locator: Locator, option: string) {

@@ -6,6 +6,12 @@ import {RegisterUser} from "@data/registerUser";
 import {AccountsOverviewPage} from "@ui/pages/AccountsOverviewPage";
 import {VALID_LOGIN_DATA} from "@data/loginValidation";
 import {NavigationServicesMenu} from "@ui/utils/NavigationServicesMenu";
+import {OpenNewAccountPage} from '@ui/pages/OpenNewAccountPage'
+
+type TwoAccountsUser = {
+    firstAccount: string;
+    secondAccount: string;
+}
 
 type PageFixtures = {
     loginPage: LoginPage;
@@ -13,6 +19,7 @@ type PageFixtures = {
     accountOverviewPage: AccountsOverviewPage
     registeredUser: RegisterUser
     navMenu: NavigationServicesMenu
+    userWithTwoAccounts: TwoAccountsUser
 }
 
 export const test = base.extend<PageFixtures>({
@@ -51,6 +58,24 @@ export const test = base.extend<PageFixtures>({
     navMenu: async ({page}, use) => {
         const navMenu = new NavigationServicesMenu(page);
         await use(navMenu);
+    },
+    userWithTwoAccounts: async({page, registeredUser, navMenu}, use) => {
+        await navMenu.goToAccountOverview();
+        const overviewPage = new AccountsOverviewPage(page)
+        const firstAccount = await overviewPage.getFirstAccount();
+
+        await navMenu.goToOpenNewAccount();
+        const openNewAccountPage = new OpenNewAccountPage(page)
+        await openNewAccountPage.selectAccountType('CHECKING')
+        await openNewAccountPage.selectFromAccount(firstAccount.accountNumber)
+        await openNewAccountPage.clickOnOpeningNewAccountButton()
+        const secondAccount = await openNewAccountPage.getNewOpenAccountNumber()
+
+        await use({
+            firstAccount: firstAccount.accountNumber,
+            secondAccount
+        })
+
     }
 })
 
