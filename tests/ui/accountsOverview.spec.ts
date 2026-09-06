@@ -5,7 +5,9 @@ test.describe('Accounts Overview Page', () => {
         await test.step('Verify that page is displayed', async () => {
             await expect(accountOverviewPage.title).toBeVisible();
         })
+
         const accounts = await accountOverviewPage.getAccounts()
+
         await test.step('Verify that at least one account is displayed', () => {
             expect(accounts.length).toBeGreaterThan(0);
         })

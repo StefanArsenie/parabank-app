@@ -44,7 +44,6 @@ export class OpenNewAccountPage {
         await this.action.click(this.openNewAccountButton);
     }
     async getNewOpenAccountNumber() {
-        await this.action.waitForVisibility(this.newAccountOpened)
         return this.action.getText(this.newAccountOpened)
     }
     async accountOpenedHeading() {
