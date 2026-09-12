@@ -3,7 +3,7 @@ import {RegistrationBuilder} from '@data/registrationBuilder';
 import {REQUIRED_FIELD_ERRORS} from '@data/registrationValidation';
 import {FIELD_TO_BUILDER_OVERRIDE} from "@data/registrationValidation";
 
-test.describe('Registration page - negative', () => {
+test.describe('Registration page - negative', {lock: 'registration'}, () => {
     test('Shows a required field error for every field on empty submit', {tag: '@regression'}, async ({registrationPage}) => {
         await test.step('Navigate to Registration page', async () => {
             await registrationPage.navigateTo();
@@ -27,7 +27,7 @@ test.describe('Registration page - negative', () => {
     for (const { field, message } of REQUIRED_FIELD_ERRORS) {
         const applyOverride = FIELD_TO_BUILDER_OVERRIDE[field];
 
-        test(`Shows a required error when '${field}' is left empty`, { tag: '@regression', lock: 'registration' }, async ({ registrationPage }) => {
+        test(`Shows a required error when '${field}' is left empty`, { tag: '@regression'}, async ({ registrationPage }) => {
             expect(applyOverride, `No builder override mapped for '${field}'`).toBeDefined();
             const user = applyOverride!(new RegistrationBuilder()).build();
 
