@@ -1,7 +1,7 @@
 import {test, expect} from '@ui/fixtures/pageFixtures';
 import {INVALID_LOGIN_DATA, VALID_LOGIN_DATA} from "@data/loginValidation";
 
-test.describe('Log in page - negative', () => {
+test.describe('Log in page - negative',{lock: 'john-session'}, () => {
     test('Reject login with valid username and invalid password', {tag: '@regression'}, async ({loginPage}) => {
         await test.step('Navigate to Login page', async () => {
             await loginPage.navigateTo();
