@@ -1,7 +1,7 @@
 import {test, expect} from "@ui/fixtures/pageFixtures";
 
 test.describe('Accounts Overview Page', () => {
-    test('Display the account with valid balance', {tag: '@regression'}, async ({accountOverviewPage}) => {
+    test('Display the account with valid balance', {tag: '@regression', lock: 'john-session'}, async ({accountOverviewPage}) => {
         await test.step('Verify that page is displayed', async () => {
             await expect(accountOverviewPage.title).toBeVisible();
         })
