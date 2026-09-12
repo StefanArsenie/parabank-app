@@ -1,7 +1,7 @@
 import { test, expect } from '@ui/fixtures/pageFixtures';
 import { RegistrationBuilder } from "@data/registrationBuilder";
 
-test.describe('Registration page - positive', () => {
+test.describe('Registration page - positive', {lock: 'registration'}, () => {
     test('Verify that Register link goes to Register page', {tag: '@regression'}, async ({loginPage, registrationPage}) =>{
         await test.step('Navigate to Login page', async () => {
             await loginPage.navigateTo();

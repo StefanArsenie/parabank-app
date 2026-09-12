@@ -4,7 +4,7 @@ import {TransferFundsPage} from '@ui/pages/TransferFundsPage'
 import {parseBalance} from '@ui/utils/currency'
 
 test.describe(`Transfer money`, () => {
-    test(`Transfer money from first account to second account`, {tag: '@smoke'}, async ({page, navMenu, userWithTwoAccounts}) => {
+    test(`Transfer money from first account to second account`, {tag: '@smoke', lock: 'registration'}, async ({page, navMenu, userWithTwoAccounts}) => {
         const overviewPage = new AccountsOverviewPage(page);
         const transferPage = new TransferFundsPage(page);
 
