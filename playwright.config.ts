@@ -40,7 +40,7 @@ export default defineConfig({
 
     /* Video only on first retry */
     video: 'on-first-retry',
-    headless: false,
+    headless: true,
   },
 
   /* Configure projects for major browsers */
