@@ -2,7 +2,7 @@ import {test, expect} from "@api/fixtures/apiFixtures";
 import {AccountsSchema} from "@api/responses/Accounts";
 
 test.describe(`Accounts API`, () => {
-    test(`Return account for a customer`, async ({accountsApiClient, loginCustomer}) => {
+    test(`Return account for a customer`, {tag: '@smoke'}, async ({accountsApiClient, loginCustomer}) => {
         const response = await accountsApiClient.getAccount(loginCustomer.id);
 
         await test.step(`Status code should be 200`, () => {

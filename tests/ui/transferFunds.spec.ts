@@ -12,6 +12,7 @@ test.describe(`Transfer money`, () => {
             await navMenu.goToAccountOverview();
             await expect(overviewPage.title).toBeVisible();
         })
+
         let firstBefore: number;
         let secondBefore: number;
         const TRANSFER_MONEY = 50;
@@ -26,6 +27,7 @@ test.describe(`Transfer money`, () => {
             firstBefore = parseBalance(first!.balance);
             secondBefore = parseBalance(second!.balance);
         })
+
         await test.step(`Perform the transfer from first account to second account`, async() => {
             await navMenu.goToTransferFunds()
             await transferPage.enterAmountTransfer(String(TRANSFER_MONEY))
@@ -36,6 +38,7 @@ test.describe(`Transfer money`, () => {
             expect(await transferPage.getFromAccountResult()).toBe(userWithTwoAccounts.firstAccount)
             expect(await transferPage.getToAccountResult()).toBe(userWithTwoAccounts.secondAccount)
         })
+
         await test.step(`Verify that balance of those two accounts are correct due to transfer`, async() => {
             await navMenu.goToAccountOverview();
             const accountsAfter = await overviewPage.getAccounts();

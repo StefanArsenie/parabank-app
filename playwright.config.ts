@@ -33,14 +33,14 @@ export default defineConfig({
     baseURL: process.env.BASE_URL ?? 'http://localhost:8080',
 
     /* Collect trace when retrying the failed test */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
 
     /* Screenshot only on failure */
     screenshot: 'only-on-failure',
 
     /* Video only on first retry */
     video: 'on-first-retry',
-    headless: true,
+    headless: false,
   },
 
   /* Configure projects for major browsers */
