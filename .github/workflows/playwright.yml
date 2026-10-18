@@ -57,7 +57,7 @@ jobs:
     services:
       parabank:
         # TODO: replace :latest with a pinned digest
-        image: parasoft/parabank:latest
+        image: parasoft/parabank@sha256:5343aebd0bd2dbcc26fd41903a4271fb9b2ff19436c712dd9041a43782459b0f
         ports:
           - 8080:8080
           - 61616:61616
@@ -66,7 +66,7 @@ jobs:
           --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 20
     env:
       BASE_URL: http://localhost:8080
       API_BASE_URL: http://localhost:8080
@@ -105,7 +105,7 @@ jobs:
     services:
       parabank:
         # TODO: replace :latest with a pinned digest — see change notes below.
-        image: parasoft/parabank:latest
+        image: parasoft/parabank@sha256:5343aebd0bd2dbcc26fd41903a4271fb9b2ff19436c712dd9041a43782459b0f
         ports:
           - 8080:8080
           - 61616:61616
@@ -114,7 +114,7 @@ jobs:
           --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 20
     env:
       BASE_URL: http://localhost:8080
     steps:
@@ -173,7 +173,7 @@ jobs:
     services:
       parabank:
         # TODO: replace :latest with a pinned digest — see change notes below.
-        image: parasoft/parabank:latest
+        image: parasoft/parabank@sha256:5343aebd0bd2dbcc26fd41903a4271fb9b2ff19436c712dd9041a43782459b0f
         ports:
           - 8080:8080
           - 61616:61616
@@ -182,7 +182,7 @@ jobs:
           --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 20
     env:
       BASE_URL: http://localhost:8080
     steps:
