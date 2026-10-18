@@ -56,8 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     services:
       parabank:
-        # TODO: replace :latest with a pinned digest
-        image: parasoft/parabank@sha256:5343aebd0bd2dbcc26fd41903a4271fb9b2ff19436c712dd9041a43782459b0f
+        # Pinned: newer images lack curl, which the healthcheck below depends on.
+        image: parasoft/parabank@sha256:1b8d2fd47c5f11d65d4ef5445d354cf541895aa6f327be2dd69ae95c92fee942
         ports:
           - 8080:8080
           - 61616:61616
@@ -104,8 +104,8 @@ jobs:
         browser: [chromium, firefox, webkit]
     services:
       parabank:
-        # TODO: replace :latest with a pinned digest — see change notes below.
-        image: parasoft/parabank@sha256:5343aebd0bd2dbcc26fd41903a4271fb9b2ff19436c712dd9041a43782459b0f
+        # Pinned: newer images lack curl, which the healthcheck below depends on.
+        image: parasoft/parabank@sha256:1b8d2fd47c5f11d65d4ef5445d354cf541895aa6f327be2dd69ae95c92fee942
         ports:
           - 8080:8080
           - 61616:61616
@@ -172,8 +172,8 @@ jobs:
     runs-on: ubuntu-latest
     services:
       parabank:
-        # TODO: replace :latest with a pinned digest — see change notes below.
-        image: parasoft/parabank@sha256:5343aebd0bd2dbcc26fd41903a4271fb9b2ff19436c712dd9041a43782459b0f
+        # Pinned: newer images lack curl, which the healthcheck below depends on.
+        image: parasoft/parabank@sha256:1b8d2fd47c5f11d65d4ef5445d354cf541895aa6f327be2dd69ae95c92fee942
         ports:
           - 8080:8080
           - 61616:61616
