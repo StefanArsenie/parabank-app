@@ -56,8 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     services:
       parabank:
-        # TODO: replace :latest with a pinned digest
-        image: parasoft/parabank:latest
+        # Pinned: newer images lack curl, which the healthcheck below depends on.
+        image: parasoft/parabank@sha256:1b8d2fd47c5f11d65d4ef5445d354cf541895aa6f327be2dd69ae95c92fee942
         ports:
           - 8080:8080
           - 61616:61616
@@ -66,7 +66,7 @@ jobs:
           --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 20
     env:
       BASE_URL: http://localhost:8080
       API_BASE_URL: http://localhost:8080
@@ -104,8 +104,8 @@ jobs:
         browser: [chromium, firefox, webkit]
     services:
       parabank:
-        # TODO: replace :latest with a pinned digest — see change notes below.
-        image: parasoft/parabank:latest
+        # Pinned: newer images lack curl, which the healthcheck below depends on.
+        image: parasoft/parabank@sha256:1b8d2fd47c5f11d65d4ef5445d354cf541895aa6f327be2dd69ae95c92fee942
         ports:
           - 8080:8080
           - 61616:61616
@@ -114,7 +114,7 @@ jobs:
           --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 20
     env:
       BASE_URL: http://localhost:8080
     steps:
@@ -172,8 +172,8 @@ jobs:
     runs-on: ubuntu-latest
     services:
       parabank:
-        # TODO: replace :latest with a pinned digest — see change notes below.
-        image: parasoft/parabank:latest
+        # Pinned: newer images lack curl, which the healthcheck below depends on.
+        image: parasoft/parabank@sha256:1b8d2fd47c5f11d65d4ef5445d354cf541895aa6f327be2dd69ae95c92fee942
         ports:
           - 8080:8080
           - 61616:61616
@@ -182,7 +182,7 @@ jobs:
           --health-cmd "curl -f http://localhost:8080/parabank/index.htm || exit 1"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 20
     env:
       BASE_URL: http://localhost:8080
     steps:

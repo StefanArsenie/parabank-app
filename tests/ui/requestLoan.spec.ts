@@ -3,8 +3,8 @@ import {RequestLoanPage} from '@ui/pages/RequestLoanPage'
 import {AccountsOverviewPage} from '@ui/pages/AccountsOverviewPage'
 import {parseBalance} from '@ui/utils/currency'
 
-test.describe(`Request a loan positive`, () => {
-    test(`Request a loan successful`, {tag: '@smoke', lock: 'registration'}, async({page, navMenu, registeredUser}) => {
+test.describe(`Request a loan positive`, {lock: 'registration'}, () => {
+    test(`Request a loan successful`, {tag: '@smoke'}, async({page, navMenu, registeredUser}) => {
         const requestLoanPage = new RequestLoanPage(page)
         const overviewPage = new AccountsOverviewPage(page)
         let balanceBefore: number
