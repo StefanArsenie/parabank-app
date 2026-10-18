@@ -21,7 +21,6 @@ type PageFixtures = {
     registeredUser: RegisterUser;
     navMenu: NavigationServicesMenu;
     userWithTwoAccounts: TwoAccountsUser;
-    payBill: BillPayPage;
 }
 
 export const test = base.extend<PageFixtures>({
