@@ -17,10 +17,11 @@ type TwoAccountsUser = {
 type PageFixtures = {
     loginPage: LoginPage;
     registrationPage: RegistrationPage;
-    accountOverviewPage: AccountsOverviewPage
-    registeredUser: RegisterUser
-    navMenu: NavigationServicesMenu
-    userWithTwoAccounts: TwoAccountsUser
+    accountOverviewPage: AccountsOverviewPage;
+    registeredUser: RegisterUser;
+    navMenu: NavigationServicesMenu;
+    userWithTwoAccounts: TwoAccountsUser;
+    payBill: BillPayPage;
 }
 
 export const test = base.extend<PageFixtures>({
@@ -51,10 +52,7 @@ export const test = base.extend<PageFixtures>({
         if(usernameError) {
             throw new Error(`Test setup failed: could not register user '${user.username}' - ${usernameError}`)
         }
-        await expect(async() => {
-            const heading = await registrationPage.getWelcomeMessage();
-            expect(heading).toContain(`Welcome ${user.username}`)
-        }).toPass({timeout: 10000})
+        await expect(registrationPage.welcomeMessage).toHaveText(`Welcome ${user.username}`)
         await use(user)
     },
     navMenu: async ({page}, use) => {
@@ -78,7 +76,6 @@ export const test = base.extend<PageFixtures>({
             firstAccount: firstAccount.accountNumber,
             secondAccount
         })
-
     }
 })
 

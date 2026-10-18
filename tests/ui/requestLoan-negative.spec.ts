@@ -1,8 +1,8 @@
 import {test, expect} from '@ui/fixtures/pageFixtures'
 import {RequestLoanPage} from '@ui/pages/RequestLoanPage'
 
-test.describe(`Request a loan negative`, () => {
-    test(`Request a loan is not possible`, {tag: '@regression', lock: 'registration'}, async({page, navMenu, registeredUser}) => {
+test.describe(`Request a loan negative`, {lock: 'registration'}, () => {
+    test(`Request a loan is not possible`, {tag: '@regression'}, async({page, navMenu, registeredUser}) => {
         const requestLoan = new RequestLoanPage(page)
 
         await test.step(`Verify logged in as registered user`, async() => {

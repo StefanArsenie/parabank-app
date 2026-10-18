@@ -1,8 +1,8 @@
 import { test, expect} from '@ui/fixtures/pageFixtures';
 import {VALID_LOGIN_DATA} from "@data/loginValidation";
 
-test.describe('Log in page - positive', () => {
-    test('User log in with valid credentials', {tag: '@smoke', lock: 'john-session'}, async ({loginPage, page}) => {
+test.describe('Log in page - positive', {lock: 'john-session'}, () => {
+    test('User log in with valid credentials', {tag: '@smoke'}, async ({loginPage, page}) => {
         await test.step('Navigate to Login page', async () => {
             await loginPage.navigateTo();
         })
